@@ -1,0 +1,27 @@
+{
+    "name": "secretwebmaster/laravel-cloudflare",
+    "description": "This package allows you to manage your cloudflare domains with your laravel application easily.",
+    "type": "library",
+    "require-dev": {
+        "orchestra/testbench": "8.x-dev"
+    },
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Secretwebmaster\\LaravelCloudflare\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Secretwebmaster\\LaravelCloudflare\\Tests": "tests/"
+        }
+    },
+    "authors": [
+        {
+            "name": "secretwebmaster",
+            "email": "earnbyshare2016@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {}
+}
