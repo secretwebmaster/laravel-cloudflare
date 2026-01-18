@@ -1,11 +1,33 @@
 {
     "name": "secretwebmaster/laravel-cloudflare",
-    "description": "This package allows you to manage your cloudflare domains with your laravel application easily.",
+    "description": "Modern PHP 8+ package for seamless Cloudflare API integration in Laravel applications. Manage zones, DNS records, firewall rules, and more.",
+    "keywords": [
+        "laravel",
+        "cloudflare",
+        "dns",
+        "api",
+        "firewall",
+        "cloudflare-api",
+        "zones",
+        "cloudflare-dns"
+    ],
     "type": "library",
-    "require-dev": {
-        "orchestra/testbench": "8.x-dev"
-    },
     "license": "MIT",
+    "authors": [
+        {
+            "name": "secretwebmaster",
+            "email": "earnbyshare2016@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "^8.0",
+        "illuminate/support": "^8.0|^9.0|^10.0|^11.0",
+        "illuminate/http": "^8.0|^9.0|^10.0|^11.0"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^6.0|^7.0|^8.0|^9.0",
+        "phpunit/phpunit": "^9.0|^10.0"
+    },
     "autoload": {
         "psr-4": {
             "Secretwebmaster\\LaravelCloudflare\\": "src/"
@@ -13,15 +35,22 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Secretwebmaster\\LaravelCloudflare\\Tests": "tests/"
+            "Secretwebmaster\\LaravelCloudflare\\Tests\\": "tests/"
         }
     },
-    "authors": [
-        {
-            "name": "secretwebmaster",
-            "email": "earnbyshare2016@gmail.com"
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Secretwebmaster\\LaravelCloudflare\\CloudflareServiceProvider"
+            ],
+            "aliases": {
+                "Cloudflare": "Secretwebmaster\\LaravelCloudflare\\Facades\\Cloudflare"
+            }
         }
-    ],
+    },
+    "config": {
+        "sort-packages": true
+    },
     "minimum-stability": "dev",
-    "require": {}
+    "prefer-stable": true
 }

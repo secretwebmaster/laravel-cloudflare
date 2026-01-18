@@ -52,15 +52,31 @@ class Client
     protected ?string $apiToken = null;
 
     /**
+     * API key for authentication (legacy)
+     *
+     * @var string|null
+     */
+    protected ?string $apiKey = null;
+
+    /**
      * Create a new Cloudflare API Client instance
      *
-     * @param string|null $email User email address
-     * @param string|null $apiToken Cloudflare API token
+     * @param string|null $apiToken Cloudflare API token (recommended)
+     * @param string|null $email User email address (for API key auth)
+     * @param string|null $apiKey Cloudflare API key (legacy auth method)
      */
-    public function __construct(?string $email = null, ?string $apiToken = null)
+    public function __construct(?string $apiToken = null, ?string $email = null, ?string $apiKey = null)
     {
-        $this->email = $email;
+        // Load from config if not provided
+        if ($apiToken === null && $email === null && $apiKey === null) {
+            $apiToken = config('cloudflare.api_token');
+            $email = config('cloudflare.email');
+            $apiKey = config('cloudflare.api_key');
+        }
+
         $this->apiToken = $apiToken;
+        $this->email = $email;
+        $this->apiKey = $apiKey;
         
         $this->initializeHeaders();
     }
@@ -74,9 +90,17 @@ class Client
     {
         $this->headers = [
             'Content-Type' => 'application/json',
-            'Authorization' => "Bearer {$this->apiToken}",
-            'X-Auth-Email' => $this->email,
         ];
+
+        // Use API Token if available (recommended)
+        if ($this->apiToken) {
+            $this->headers['Authorization'] = "Bearer {$this->apiToken}";
+        }
+        // Fall back to Email + API Key authentication
+        elseif ($this->email && $this->apiKey) {
+            $this->headers['X-Auth-Email'] = $this->email;
+            $this->headers['X-Auth-Key'] = $this->apiKey;
+        }
     }
 
     /**
